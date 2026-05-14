@@ -1,0 +1,6 @@
+interface:
+  display_name: "BKN 需求发现"
+  short_description: "将业务材料整理为场景中心 PRD"
+  default_prompt: "使用 $bkn-requirement 将我的业务访谈纪要或 PRD 整理成业务场景中心的标准 PRD，并输出 BKN_Creator 交接摘要。"
+policy:
+  allow_implicit_invocation: true
