@@ -56,25 +56,43 @@ Business idea / interview / draft PRD
 
 `bkn-requirement` does not create `.bkn` files, bind data views, push networks, or execute platform operations. Those are downstream responsibilities of `BKN_Creator` and related KWeaver engineering tools.
 
-## Installation
+## AI Agent Skills
 
-### Install for Codex / local agent usage
+Install the skill from this repository with `npx skills`:
 
-Clone this repository:
+```bash
+npx skills add https://github.com/kweaver-ai/kweaver-engineering \
+  --skill bkn-requirement
+```
+
+`bkn-requirement` — a requirement discovery skill for KWeaver BKN projects. It helps AI engineers turn interviews, meeting notes, draft PRDs, BRDs, process descriptions, and system/data materials into a business-scenario-centered PRD, then produce a `BKN_Creator` handoff summary. See `skills/bkn-requirement/SKILL.md`.
+
+`npx skills` installs the selected skill into the skills location supported by the developer's current AI agent environment. Restart your agent session after installation so the skill list refreshes.
+
+### Skill Source
+
+This repository publishes a standard Agent Skill directory:
+
+```text
+skills/bkn-requirement/
+  SKILL.md
+  agents/openai.yaml
+  assets/
+  references/
+```
+
+Any agent that supports `SKILL.md`-based skills can install this directory. Use the `npx skills add` command above as the default installation path.
+
+### Manual Fallback (Advanced)
+
+If the target environment cannot use `npx skills`, clone the repository and copy `skills/bkn-requirement/` into the skills directory documented by that agent. Different agents scan different locations, so follow the target agent's official documentation.
 
 ```bash
 git clone https://github.com/kweaver-ai/kweaver-engineering.git
 cd kweaver-engineering
 ```
 
-Copy the skill into your local agent skills directory:
-
-```bash
-mkdir -p ~/.agents/skills
-cp -R skills/bkn-requirement ~/.agents/skills/
-```
-
-Restart your agent session so the skill list refreshes.
+Cursor, Codex, OpenClaw, and other agents can discover this skill only if they support `SKILL.md`-based skills and scan the directory written by `npx skills` or by the agent configuration.
 
 ### Use directly from a project
 
@@ -167,10 +185,6 @@ skills/bkn-requirement/
   references/
     ...
 ```
-
-## What Is Not Included
-
-This repository publishes the installable skill package only. Internal design notes, review reports, draft PRDs, and project-specific documents are not included.
 
 ## Reading Path
 

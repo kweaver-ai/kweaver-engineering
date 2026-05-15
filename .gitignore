@@ -9,3 +9,6 @@ __pycache__/
 .vscode/
 .env
 .tmp/
+
+# Local documentation and design drafts (not published with skills)
+docs/

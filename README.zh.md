@@ -56,25 +56,43 @@ KWeaver BKN 项目的 AI 工程能力工具与 Skill 包。
 
 `bkn-requirement` 不创建 `.bkn` 文件，不绑定数据视图，不推送知识网络，也不执行平台操作。这些是 `BKN_Creator` 和相关 KWeaver 工程工具的下游职责。
 
-## 安装
+## AI Agent Skills
 
-### 安装到 Codex / 本地 Agent
+使用 `npx skills` 从本仓库安装 Skill：
 
-克隆仓库：
+```bash
+npx skills add https://github.com/kweaver-ai/kweaver-engineering \
+  --skill bkn-requirement
+```
+
+`bkn-requirement` — 面向 KWeaver BKN 项目的需求发现 Skill，帮助 AI 工程师把访谈、会议纪要、PRD 草稿、BRD、流程说明和系统/数据材料整理为业务场景中心 PRD，并输出 `BKN_Creator` 交接摘要。参见 `skills/bkn-requirement/SKILL.md`。
+
+`npx skills` 会把指定 Skill 安装到开发者当前 AI Agent 环境支持的 skills 位置。安装完成后，重启 Agent 会话，让 Skill 列表刷新。
+
+### Skill 源码位置
+
+本仓库发布的是一个标准 Agent Skill 目录：
+
+```text
+skills/bkn-requirement/
+  SKILL.md
+  agents/openai.yaml
+  assets/
+  references/
+```
+
+只要目标 Agent 支持以 `SKILL.md` 为入口的 Skill 机制，就可以安装这个目录。推荐使用上面的 `npx skills add` 命令安装。
+
+### 手工安装备用方式（高级）
+
+如果目标环境无法使用 `npx skills`，可以克隆仓库后，将 `skills/bkn-requirement/` 复制到该 Agent 官方文档指定的 skills 目录。不同 Agent 的扫描目录不同，请以目标 Agent 的官方说明为准。
 
 ```bash
 git clone https://github.com/kweaver-ai/kweaver-engineering.git
 cd kweaver-engineering
 ```
 
-复制 Skill 到本地 Agent Skills 目录：
-
-```bash
-mkdir -p ~/.agents/skills
-cp -R skills/bkn-requirement ~/.agents/skills/
-```
-
-重启 Agent 会话，让 Skill 列表刷新。
+Cursor、Codex、OpenClaw 或其他 Agent 是否能自动发现该 Skill，取决于它们是否支持 `SKILL.md` Skill 机制，以及当前 `npx skills` 或 Agent 配置写入的安装目录。
 
 ### 在项目中直接使用
 
@@ -167,10 +185,6 @@ skills/bkn-requirement/
   references/
     ...
 ```
-
-## 不包含的内容
-
-本仓库只发布可安装的 Skill 包。内部设计文档、评审报告、PRD 草稿和项目专用资料不会发布到线上。
 
 ## 开源社区阅读路径
 
