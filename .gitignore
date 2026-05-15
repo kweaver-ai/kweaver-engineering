@@ -10,5 +10,4 @@ __pycache__/
 .env
 .tmp/
 
-# Local documentation and design drafts (not published with skills)
 docs/

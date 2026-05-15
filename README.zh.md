@@ -133,7 +133,9 @@ docs/requirements/prj-<客户或项目简称>/
 docs/requirements/prj-<客户或项目简称>/inputs/round-XX/
 ```
 
-如果用户指定的输入文件不在项目文件夹内，Skill 应复制一份到本轮 `inputs/round-XX/`，不移动原始文件；如果输入文件已经在项目文件夹内，可以不复制，但应生成或更新 `source-manifest.md` 记录本轮输入来源。
+如果用户指定的输入文件不在项目文件夹内，Skill 必须先复制一份到本轮 `inputs/round-XX/`，不移动原始文件；如果输入文件已经在项目文件夹内，可以不复制，但应生成或更新 `source-manifest.md` 记录本轮输入来源。
+
+`source-manifest.md` 只能记录真实发生的归档动作。凡标记为“已复制”的归档路径必须真实存在；如果复制失败或路径不可访问，必须在清单和最终输出中说明，不得写成“已复制”。
 
 推荐输入文件命名：
 

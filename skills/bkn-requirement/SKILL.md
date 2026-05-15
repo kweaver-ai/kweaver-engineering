@@ -94,7 +94,7 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/
 | 客户补充材料 | `YYYYMMDD-<项目名>-第X轮-input-客户材料-<材料名>.<ext>` |
 | 上一版 PRD 引用 | 不重复复制；在 source manifest 中登记版本和路径 |
 
-不要移动用户原始文件。若用户指定的输入文件不在项目文件夹内，应复制到本轮 `inputs/round-XX/` 作为项目证据材料；若输入文件已在项目文件夹内，可以不复制，但必须在输出文档和 `source-manifest.md` 中记录路径。
+不要移动用户原始文件。若用户指定的输入文件不在项目文件夹内，必须先复制到本轮 `inputs/round-XX/` 作为项目证据材料；若输入文件已在项目文件夹内，可以不复制，但必须在输出文档和 `source-manifest.md` 中记录路径。
 
 每轮处理都应生成或更新：
 
@@ -103,6 +103,14 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 ```
 
 `source-manifest.md` 记录本轮原始路径、归档路径、材料类型、用途、处理时间和使用方式。模板见 `assets/source-manifest-template.md`。
+
+输入归档是生成验证输出或 PRD 之前的前置步骤：
+
+1. 先创建 `inputs/round-XX/`；
+2. 再复制外部输入文件，或登记项目内已有输入文件；
+3. 再检查 `source-manifest.md` 中所有 `是否复制=是` 或 `copied_to_project=true` 的 `归档路径 / archived_path` 是否真实存在；
+4. 只有检查通过后，才能在 manifest 中写“已复制”；
+5. 如果复制失败、权限不足或路径无法访问，不得伪造归档状态。必须写“是否复制=否”、记录失败原因，并在最终输出开头标注“输入归档未完成”。
 
 第一轮之后有两种输出路径：
 
@@ -129,7 +137,8 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 
 1. **整理输入材料**
    - 识别输入来源：粗略想法、访谈记录、录音转写、PRD、流程图、系统说明、数据字典、截图、历史案例。
-   - 将本轮输入文件归档或登记到项目目录的 `inputs/round-XX/source-manifest.md`。
+   - 在生成验证输出或 PRD 之前，将本轮输入文件归档或登记到项目目录的 `inputs/round-XX/source-manifest.md`。
+   - 校验 manifest 中标记为已复制的归档文件确实存在；不存在时必须更正状态并暴露风险。
    - 区分已确认事实、假设、冲突信息和缺失信息。
    - 如果输入是录音转写或会议纪要，读取 `references/meeting-transcript-processing.md`。
    - 如果输入是 PRD 迭代任务，必须同时识别 `research_outline`、`meeting_notes_and_materials` 和 `previous_prd`。
@@ -233,6 +242,7 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 - 是否包含 AI 工程师追问清单，并说明“问谁、为什么问、不确认的风险、建议问法”；
 - PRD 迭代输出是否包含本轮输入来源、变更摘要、版本记录和下一轮追问；
 - 本轮输入文件是否已复制归档或登记到 `inputs/round-XX/source-manifest.md`；
+- `source-manifest.md` 中标记为已复制的每个 `archived_path` 是否真实存在；不存在时不得写“已复制”；
 - `BKN_Creator` 交接摘要是否仅放在末尾，并区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
 - 没有把 `operator` 当作业务逻辑直接写入 PRD 主体；如需表达，应写为业务规则或对象逻辑属性候选，交由 `BKN_Creator` 判定。
 

@@ -133,7 +133,9 @@ Archive each round's input materials under:
 docs/requirements/prj-<customer-or-project-short-name>/inputs/round-XX/
 ```
 
-If a user-specified input file is outside the project folder, the skill should copy it into the current round's `inputs/round-XX/` folder without moving the original file. If the input file is already inside the project folder, copying is optional, but the skill should create or update `source-manifest.md` to record the input source.
+If a user-specified input file is outside the project folder, the skill must copy it into the current round's `inputs/round-XX/` folder before generating the validation output or PRD, without moving the original file. If the input file is already inside the project folder, copying is optional, but the skill should create or update `source-manifest.md` to record the input source.
+
+`source-manifest.md` must only record archive actions that actually happened. Any file marked as copied must have an existing archived path. If copying fails or the path is inaccessible, the manifest and final output must say so instead of marking it as copied.
 
 Recommended input names:
 

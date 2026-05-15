@@ -36,6 +36,7 @@ source_manifest:
     name:
     project_dir:
     round:
+    source_date:
     processed_at:
   input_sources:
     - id:
@@ -44,12 +45,18 @@ source_manifest:
       original_path:
       archived_path:
       copied_to_project: true | false
+      archived_path_exists: true | false | not_applicable
       used_in_output: true | false
       purpose:
+      copy_failure_reason:
       notes:
   output_files:
     - type: meeting_digest | prd | research_outline | handoff | review
       path:
+  archive_integrity:
+    status: passed | failed | partial
+    checked_at:
+    issues:
   assumptions:
   unresolved_source_questions:
 ```
