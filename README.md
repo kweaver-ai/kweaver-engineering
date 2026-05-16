@@ -199,7 +199,7 @@ Use $bkn-requirement to turn this existing PRD into a standard PRD.
 Input file: /path/to/PRD.md
 ```
 
-In this case, the skill defaults to outputting `<project>-PRD v0.1.md` or the next suggested version, with a quality summary, scenario-based business follow-up questions, and a `BKN_Creator` handoff summary that maps each scenario to the conceptual model, relationship, dynamic, governance, and Skill / Agent application layers. It falls back to a validation or review report only when the source material is insufficient.
+In this case, the skill defaults to outputting `<project>-PRD v0.1.md` or the next suggested version, with a quality summary and scenario-based business follow-up questions. For each core scenario, the PRD body first explains which business objects must be recognized, which business links must be expressed, which judgments / calculations / progressions must happen, and which responsibilities or controls must be governed, before the final `BKN_Creator` handoff summary is produced. It falls back to a validation or review report only when the source material is insufficient.
 
 ### 5. Review an existing PRD
 
@@ -223,17 +223,17 @@ The handoff summary uses a two-layer form: first a Chinese business-readable sum
 
 The Chinese summary first maps each scenario to:
 
-- Conceptual model layer: business objects, documents, roles, states, results, and sources of truth.
-- Relationship layer: consume, satisfy, substitute, belong-to, depend-on, impact, approve, and produce relationships.
-- Dynamic layer: rules, metrics, calculations, ranking, risk decisions, state changes, draft generation, and reminders.
-- Governance layer: permissions, approvals, exports, audit trail, rejected automation, data isolation, and compliance risk.
-- Skill / Agent application layer: Q&A, analysis, explanation, recommendation, draft generation, and follow-up reminders.
+- Business objects that must be recognized (conceptual model layer).
+- Business links that must be expressed (relationship layer).
+- Judgments, calculations, or progressions that must happen (dynamic layer).
+- Responsibilities, permissions, and traceability that must be controlled (governance layer).
+- Business tasks that can be supported by Skill / Agent capabilities.
 
 It then produces the global rollup with business-readable headings:
 
-- Business-confirmed content (`business_confirmed`): confirmed scenarios, objects, rules, systems, and acceptance cases.
-- Modeling candidates (`candidate_only`): candidates inferred by the AI engineer.
-- Items for `BKN_Creator` decision (`needs_bkn_creator_decision`): modeling questions left for downstream decisions.
+- Business-confirmed content: confirmed scenarios, objects, rules, systems, and acceptance cases.
+- Still modeling candidates: candidates inferred by the AI engineer.
+- Items for downstream modeling decisions: modeling questions left for `BKN_Creator`.
 
 ## Skill Structure
 

@@ -16,9 +16,9 @@ V0.5 要求明确区分业务已确认内容、建模候选内容和需要 `BKN_
 
 ### 全局归并摘要
 
-#### 业务已确认内容（business_confirmed）
-#### 建模候选内容（candidate_only）
-#### 需 BKN_Creator 判定的问题（needs_bkn_creator_decision）
+#### 业务已确认内容
+#### 仍属建模候选
+#### 需下游建模阶段判定的问题
 ```
 
 ## 机器可读 schema
@@ -37,6 +37,15 @@ bkn_creator_handoff:
     - scenario_id:
       scenario_name:
       business_goal:
+      capability_goal:
+      decision_points:
+        - decision_point_id:
+          decision_name:
+          decision_owner:
+          required_evidence:
+          automation_boundary:
+          error_cost:
+      expected_operational_effect:
       confirmed_business_rules:
       acceptance_cases:
       conceptual_model_layer:
