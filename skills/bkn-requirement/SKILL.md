@@ -169,7 +169,9 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 
 7. **生成 BKN_Creator 交接摘要**
    - 仅在 PRD 末尾输出 `bkn_creator_handoff`。
-   - 必须先输出按场景组织的 `scenario_handoff_matrix`，再输出全局归并的 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`。
+   - 必须采用“双层表达”：先输出中文业务可读的按场景收敛摘要，再输出机器可读 schema。
+   - 中文业务可读摘要必须先按场景说明概念模型层、关系层、动力层、治理层和 Skill / Agent 应用层，再输出中文全局归并标题：`业务已确认内容（business_confirmed）`、`建模候选内容（candidate_only）`、`需 BKN_Creator 判定的问题（needs_bkn_creator_decision）`。
+   - 机器可读 schema 中必须先输出按场景组织的 `scenario_handoff_matrix`，再输出全局归并的 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`。
    - `scenario_handoff_matrix` 必须按场景映射概念模型层、关系层、动力层、治理层和 Skill / Agent 应用层。
    - 每个候选对象、关系、逻辑属性、Action、治理要求或 Skill / Agent 候选都必须带 `scenario_id`、`evidence_ref` 和 `confirmation_status`。
    - `confirmation_status` 使用 `confirmed`、`candidate`、`unresolved`、`rejected`。
@@ -252,6 +254,7 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 - 本轮输入文件是否已复制归档或登记到 `inputs/round-XX/source-manifest.md`；
 - `source-manifest.md` 中标记为已复制的每个 `archived_path` 是否真实存在；不存在时不得写“已复制”；
 - `BKN_Creator` 交接摘要是否仅放在末尾，先输出 `scenario_handoff_matrix`，再区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
+- `BKN_Creator` 交接摘要是否先提供中文业务可读摘要，再提供机器可读 schema；正文标题是否使用中文并仅将英文 schema 标签放在括号或代码块中；
 - `scenario_handoff_matrix` 中每个四层候选项是否包含 `scenario_id`、`evidence_ref`、`confirmation_status`；
 - 全局归并项是否都能追溯到至少一个场景、规则或验收用例；无法追溯的内容不得进入 `business_confirmed`；
 - 没有把 `operator` 当作业务逻辑直接写入 PRD 主体；如需表达，应写为业务规则或对象逻辑属性候选，交由 `BKN_Creator` 判定。

@@ -196,6 +196,22 @@ requirement_schema:
 
 ## 16. BKN_Creator 交接摘要
 
+### 16.1 按场景收敛摘要
+
+| 场景 | 概念模型层 | 关系层 | 动力层 | 治理层 | Skill / Agent 应用层 | 证据 |
+|---|---|---|---|---|---|---|
+| S1 <场景名称> |  |  |  |  |  |  |
+
+### 16.2 全局归并摘要
+
+#### 业务已确认内容（business_confirmed）
+
+#### 建模候选内容（candidate_only）
+
+#### 需 BKN_Creator 判定的问题（needs_bkn_creator_decision）
+
+### 16.3 机器可读交接结构
+
 ```yaml
 bkn_creator_handoff:
   schema_version: bkn-requirement.v0.5

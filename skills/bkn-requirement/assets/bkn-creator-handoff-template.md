@@ -1,10 +1,27 @@
 # BKN_Creator 交接模板
 
-字段名保留英文，便于后续 `bkn-creator` 消费；字段内容和说明使用中文。
+字段名保留英文，便于后续 `bkn-creator` 消费；字段内容和说明使用中文。PRD 正文应先给出中文业务可读摘要，再给出下面的机器可读 schema。
 
 V0.5 要求明确区分业务已确认内容、建模候选内容和需要 `BKN_Creator` 判定的内容。不要把候选对象、关系、逻辑属性或 Action 写成业务已确认事实。
 
 交接摘要必须先按场景输出 `scenario_handoff_matrix`，再做全局归并。每个候选项都必须能追溯到 `scenario_id`、`evidence_ref` 和 `confirmation_status`。
+
+## 中文业务可读摘要
+
+```markdown
+### 按场景收敛摘要
+
+| 场景 | 概念模型层 | 关系层 | 动力层 | 治理层 | Skill / Agent 应用层 | 证据 |
+|---|---|---|---|---|---|---|
+
+### 全局归并摘要
+
+#### 业务已确认内容（business_confirmed）
+#### 建模候选内容（candidate_only）
+#### 需 BKN_Creator 判定的问题（needs_bkn_creator_decision）
+```
+
+## 机器可读 schema
 
 ```yaml
 bkn_creator_handoff:

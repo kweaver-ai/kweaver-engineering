@@ -66,6 +66,7 @@ total_score =
 - 高风险操作的权限、审批或失败处理未确认；
 - 界面 / 交互期望缺失，业务用户无法判断如何使用；
 - `bkn_creator_handoff` 未先输出 `scenario_handoff_matrix`，或未区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
+- `bkn_creator_handoff` 只有机器可读 schema，没有中文业务可读摘要；
 - 四层候选项缺少 `scenario_id`、`evidence_ref` 或 `confirmation_status`；
 - `business_confirmed` 中包含“范围待确认”、工程推断或无法追溯到场景 / 规则 / 验收用例的内容。
 
@@ -112,6 +113,7 @@ V0.5 区分两类路线：
 - 权限、审批、审计、失败处理或拒绝执行边界缺失；
 - 业务验收用例未覆盖典型、边界、权限拒绝、数据不足和证据解释；
 - handoff 字段不完整或把候选建模项误写成业务确认项。
+- handoff 主体只有英文 schema 标题，缺中文业务可读标题。
 - 待确认问题未按场景组织，或混入未转译的技术 / 建模问题；
 - §13 出现 `object_type`、`relation_type`、`ActionType`、BKN、data_view、主键、关系基数、接口粒度、写回粒度等未业务化表达；
 - P0/P1 场景缺少场景级四层候选摘要；
@@ -137,8 +139,8 @@ V0.5 区分两类路线：
 | 0-20 | 无 handoff，或仅有脱离场景的对象 / 关系清单。 |
 | 21-40 | 有全局候选项，但缺场景追溯、证据或确认状态。 |
 | 41-60 | 有场景级摘要，但四层不完整或 business_confirmed 混入待确认内容。 |
-| 61-80 | 有 `scenario_handoff_matrix`，大多数候选项有证据和确认状态，仍有少量边界问题。 |
-| 81-100 | 每个 P0/P1 场景都有完整四层映射、证据、确认状态和明确 BKN_Creator 路由。 |
+| 61-80 | 有中文业务可读摘要和 `scenario_handoff_matrix`，大多数候选项有证据和确认状态，仍有少量边界问题。 |
+| 81-100 | 每个 P0/P1 场景都有中文可读四层映射、证据、确认状态和明确 BKN_Creator 路由。 |
 
 ## 输出要求
 

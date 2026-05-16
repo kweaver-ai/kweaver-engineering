@@ -219,7 +219,9 @@ When the PRD is ready, use:
 Use $bkn-requirement to generate a BKN_Creator handoff summary.
 ```
 
-The handoff summary first outputs a `scenario_handoff_matrix`, mapping each scenario to:
+The handoff summary uses a two-layer form: first a Chinese business-readable summary, then a machine-readable `scenario_handoff_matrix`.
+
+The Chinese summary first maps each scenario to:
 
 - Conceptual model layer: business objects, documents, roles, states, results, and sources of truth.
 - Relationship layer: consume, satisfy, substitute, belong-to, depend-on, impact, approve, and produce relationships.
@@ -227,11 +229,11 @@ The handoff summary first outputs a `scenario_handoff_matrix`, mapping each scen
 - Governance layer: permissions, approvals, exports, audit trail, rejected automation, data isolation, and compliance risk.
 - Skill / Agent application layer: Q&A, analysis, explanation, recommendation, draft generation, and follow-up reminders.
 
-It then produces the global rollup:
+It then produces the global rollup with business-readable headings:
 
-- `business_confirmed`: business-confirmed scenarios, objects, rules, systems, and acceptance cases.
-- `candidate_only`: modeling candidates inferred by the AI engineer.
-- `needs_bkn_creator_decision`: modeling decisions left for `BKN_Creator`.
+- Business-confirmed content (`business_confirmed`): confirmed scenarios, objects, rules, systems, and acceptance cases.
+- Modeling candidates (`candidate_only`): candidates inferred by the AI engineer.
+- Items for `BKN_Creator` decision (`needs_bkn_creator_decision`): modeling questions left for downstream decisions.
 
 ## Skill Structure
 
