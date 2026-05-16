@@ -171,147 +171,56 @@
 |---|---|---|---|---|---|
 |  |  |  |  |  |  |
 
-## 14. 质量评估摘要
+## 14. 需求成熟度与下一步建议
 
-> 默认输出摘要即可；当用户要求完整结构化评分时，按 `references/quality-scoring.md` 输出完整 `quality_assessment`。
+| 评估项 | 当前判断 | 对业务评审的含义 |
+|---|---|---|
+| 当前成熟度 | R0 / R1 / R2 / R3 / R4 | 说明当前文档适合继续调研、业务评审、还是进入后续建模 / 实现设计 |
+| 已经比较清楚的部分 |  | 业务专家可以围绕这些内容确认口径和验收样例 |
+| 仍缺关键证据的部分 |  | 不补齐会影响判断是否可信或能否验收 |
+| 当前不宜确认的范围 |  | 原始材料不足、仍属候选或范围待定的内容不得写成已确认需求 |
+| 建议下一步 |  | 给出下一轮访谈、材料补充或业务评审建议 |
 
-```yaml
-quality_assessment:
-  schema_version: bkn-requirement.v0.5
-  requirement_maturity: R0 | R1 | R2 | R3 | R4
-  total_score:
-  readiness_decision:
-    quality_route: hold | research_plan | interview | prd_iteration | prd_refinement | business_review | bkn_creator_handoff
-    mapped_handoff_route: hold | interview | extract_after_prd_refinement | extract_after_scene_split | create_after_business_confirmation | update
-    decision_reason:
-  critical_gaps:
-```
+## 15. BKN_Creator 交接摘要
 
-## 15. 结构化需求索引（可选）
-
-> 仅当用户要求机器可读 schema、系统集成或自动检查时输出完整 `requirement_schema`。字段结构见 `references/output-schema.md`。
-
-```yaml
-requirement_schema:
-  schema_version: bkn-requirement.v0.5
-  document:
-    title:
-    version:
-    previous_version:
-    status:
-    output_mode:
-    current_iteration_summary:
-  business_scenarios:
-  systems_forms_and_data:
-  business_acceptance_cases:
-  unresolved_questions:
-```
-
-## 16. BKN_Creator 交接摘要
-
-### 16.1 按场景收敛摘要
+### 15.1 按场景收敛摘要
 
 #### S1 <场景名称>
 
-| 业务视角 | 内容 |
-|---|---|
-| 需要识别的业务对象（概念模型层） |  |
-| 需要表达的业务联系（关系层） |  |
-| 需要判断、计算或推进的业务逻辑（动力层） |  |
-| 需要控制的责任、权限与留痕（治理层） |  |
-| 可由 Skill / Agent 支撑的业务任务 |  |
-| 证据 |  |
+##### 概念模型层：需要识别的业务对象
 
-### 16.2 全局归并摘要
+| 业务对象 | 是什么 | 为什么需要 |
+|---|---|---|
+|  |  |  |
+
+##### 关系层：需要表达的业务联系
+
+| 业务联系 | 连接什么 | 业务含义 | 为什么需要 |
+|---|---|---|---|
+|  |  |  |  |
+
+##### 动力层：需要判断、计算或推进的业务逻辑
+
+| 业务逻辑 | 怎么做 / 怎么判断 | 输出什么 | 边界 |
+|---|---|---|---|
+|  |  |  |  |
+
+##### 治理层：需要控制的责任、权限与留痕
+
+| 治理点 | 控制什么 | 谁负责 / 谁使用 | 为什么需要 |
+|---|---|---|---|
+|  |  |  |  |
+
+##### Skill / Agent 应用层：可支撑的业务任务
+
+| Agent 任务 | 帮谁 | 做什么 | 输出要求 |
+|---|---|---|---|
+|  |  |  |  |
+
+### 15.2 全局归并摘要
 
 #### 业务已确认内容
 
 #### 仍属建模候选
 
 #### 需下游建模阶段判定的问题
-
-### 16.3 机器可读交接结构
-
-```yaml
-bkn_creator_handoff:
-  schema_version: bkn-requirement.v0.5
-  source_prd:
-  handoff_route: hold | interview | extract_after_prd_refinement | extract_after_scene_split | create_after_business_confirmation | update
-  requirement_maturity: R0 | R1 | R2 | R3 | R4
-  scenario_handoff_matrix:
-    - scenario_id:
-      scenario_name:
-      business_goal:
-      capability_goal:
-      decision_points:
-        - decision_point_id:
-          decision_name:
-          decision_owner:
-          required_evidence:
-          automation_boundary:
-          error_cost:
-      expected_operational_effect:
-      evidence_refs:
-      conceptual_model_layer:
-        - name:
-          scenario_id:
-          type_hint:
-          confirmation_status: confirmed | candidate | unresolved | rejected
-          evidence_ref:
-      relationship_layer:
-        - name:
-          scenario_id:
-          source_business_term:
-          target_business_term:
-          business_meaning:
-          confirmation_status: confirmed | candidate | unresolved | rejected
-          evidence_ref:
-      dynamic_layer:
-        - name:
-          scenario_id:
-          kind: metric | calculation | decision | action_draft | action_execute | state_change
-          trigger:
-          human_confirmation:
-          confirmation_status: confirmed | candidate | unresolved | rejected
-          evidence_ref:
-      governance_layer:
-        - name:
-          scenario_id:
-          permission_subject:
-          controlled_action:
-          approval_or_audit:
-          confirmation_status: confirmed | candidate | unresolved | rejected
-          evidence_ref:
-      skill_agent_layer:
-        - user_task:
-          scenario_id:
-          agent_capability:
-          expected_answer_or_action:
-          acceptance_case_ref:
-          confirmation_status: confirmed | candidate | unresolved | rejected
-  business_confirmed:
-    business_scenarios:
-    business_objects:
-    business_rules:
-    business_systems:
-    business_acceptance_cases:
-  candidate_only:
-    candidate_objects:
-    candidate_relations:
-    candidate_logic_properties:
-    candidate_actions:
-    candidate_risk_types:
-    candidate_skills:
-  needs_bkn_creator_decision:
-    internal_modeling_questions:
-  critical_gaps:
-  suggested_next_step:
-```
-
-> `business_confirmed`、`candidate_only` 和 `needs_bkn_creator_decision` 必须来自 `scenario_handoff_matrix` 的全局归并。无法追溯到场景、规则或验收用例的候选项不得进入 `business_confirmed`。
-
-## 17. 版本记录
-
-| 版本 | 日期 | 输入来源 | 主要变更 | 仍待确认 |
-|---|---|---|---|---|
-| v0.1 |  | 初始客户背景 / 调研纪要 | 初版生成 |  |

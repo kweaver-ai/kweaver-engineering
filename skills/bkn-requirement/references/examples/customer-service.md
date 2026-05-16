@@ -38,103 +38,44 @@
 
 ## BKN_Creator 交接线索
 
-```yaml
-bkn_creator_handoff:
-  schema_version: bkn-requirement.v0.5
-  scenario_handoff_matrix:
-    - scenario_id: S2
-      scenario_name: 识别流失风险
-      business_goal: 帮助客户负责人识别高风险客户并解释原因。
-      confirmed_business_rules:
-        - 敏感客户字段按角色控制访问。
-        - 风险等级更新需要客户负责人审批。
-      acceptance_cases:
-        - AC-02
-        - AC-05
-      conceptual_model_layer:
-        - name: 客户
-          scenario_id: S2
-          type_hint: business_object
-          confirmation_status: confirmed
-          evidence_ref: S2/AC-02
-      relationship_layer:
-        - name: 客户由客户负责人负责
-          scenario_id: S2
-          source_business_term: 客户
-          target_business_term: 客户负责人
-          business_meaning: 客户负责人对客户跟进负责。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-03
-      dynamic_layer:
-        - name: 流失风险识别
-          scenario_id: S2
-          kind: decision
-          trigger: 用户查询客户健康状态。
-          human_confirmation: 风险等级更新需要客户负责人确认。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-02
-      governance_layer:
-        - name: 敏感联系人信息访问控制
-          scenario_id: S2
-          permission_subject: 客户负责人
-          controlled_action: 查看敏感联系人信息
-          approval_or_audit: 未授权不可见
-          confirmation_status: confirmed
-          evidence_ref: AC-05
-      skill_agent_layer:
-        - user_task: 解释客户流失风险
-          scenario_id: S2
-          agent_capability: 风险原因解释和下一步建议
-          expected_answer_or_action: 输出风险原因、证据和建议行动。
-          acceptance_case_ref: AC-02
-          confirmation_status: candidate
-  business_confirmed:
-    business_scenarios:
-      - 查看客户健康状态
-      - 识别流失风险
-      - 推荐下一步行动
-      - 创建跟进任务
-    business_objects:
-      - 客户
-      - 联系人
-      - 客户负责人
-      - 服务工单
-      - 销售商机
-      - 客户互动
-      - 跟进任务
-    business_rules:
-      - 敏感客户字段按角色控制访问。
-      - 外发消息默认只生成草案。
-      - 风险等级更新需要客户负责人审批。
-  candidate_only:
-    candidate_objects:
-      - Customer
-      - Contact
-      - AccountOwner
-      - ServiceTicket
-      - SalesOpportunity
-      - CustomerInteraction
-      - ChurnRiskSignal
-      - FollowUpTask
-    candidate_relations:
-      - Customer has Contact
-      - Customer owned_by AccountOwner
-      - ServiceTicket raised_by Customer
-      - SalesOpportunity belongs_to Customer
-    candidate_logic_properties:
-      - Customer.customer_health_score
-      - Customer.churn_risk_signal
-    candidate_actions:
-      - CreateFollowUpTask
-      - UpdateCustomerRiskLevel
-  needs_bkn_creator_decision:
-    - ChurnRiskSignal 是否建为派生对象。
-    - 客户健康分是指标型逻辑属性还是算子型逻辑属性。
-    - 外发消息是否只能生成草案。
-  critical_gaps:
-    - 客户敏感字段权限矩阵未确认。
-    - 健康分下降和流失风险标准答案样例未确认。
-  requires_business_confirmation:
-    - 风险等级更新审批人。
-    - 任务草案默认负责人和截止日期规则。
-```
+### 识别流失风险
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上必须看清“哪个客户正在变差、谁负责这个客户、哪些服务或销售事实能解释变化”。后续候选对象包括客户、联系人、客户负责人、服务工单、销售商机和客户互动。 |
+| 需要表达的业务联系（关系层） | 需要把客户与负责人、工单、商机和互动记录串起来，否则无法解释风险来自服务问题、销售停滞还是客户互动减少。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 业务现场要回答“这个客户为什么有流失风险、下一步该做什么”。后续可关注健康状态解释、风险识别和行动建议。 |
+| 需要控制的责任、权限与留痕（治理层） | 敏感客户字段必须按角色控制访问；风险等级更新需要负责人确认，不能由系统直接改写。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以解释客户风险原因、汇总证据并生成下一步跟进建议。 |
+| 证据 | AC-02、AC-05 |
+
+### 创建跟进任务
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上要看清客户、负责人和待办任务，才能把建议变成可跟进的行动。 |
+| 需要表达的业务联系（关系层） | 跟进任务必须归属于具体客户，并分配给明确责任人。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 系统可以生成任务草案，但任务内容、负责人和截止时间仍需业务确认。 |
+| 需要控制的责任、权限与留痕（治理层） | 默认不自动外发消息，避免系统替业务人员做承诺。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以生成跟进任务草案，供客户负责人确认。 |
+| 证据 | AC-04 |
+
+### 全局归并摘要
+
+#### 业务已确认内容
+
+- 需要识别客户健康状态、流失风险、下一步行动和跟进任务。
+- 敏感客户字段必须按角色控制访问。
+- 风险等级更新需要客户负责人确认。
+- 外发消息默认只生成草案。
+
+#### 仍属建模候选
+
+- 客户健康分、流失风险信号、跟进任务生成逻辑。
+- 客户、联系人、客户负责人、服务工单、销售商机、客户互动之间的表达方式。
+
+#### 需下游建模阶段判定的问题
+
+- 流失风险信号是否需要独立表达。
+- 客户健康分更适合作为指标还是判断逻辑。
+- 外发消息草案与任务草案应如何衔接。

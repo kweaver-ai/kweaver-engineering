@@ -167,23 +167,21 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 
 6. **评估需求质量**
    - 标注需求成熟度：`R0 Idea`、`R1 Use Case Brief`、`R2 PRD Candidate`、`R3 PRD Ready`、`R4 Implementation Ready`。
-   - 输出 `quality_assessment`，重点评估业务场景完整度、用户工作流、业务规则、系统数据、权限治理、验收用例和 BKN_Creator 交接质量。
+   - 输出业务可读的“需求成熟度与下一步建议”，重点说明当前成熟度、已清楚内容、仍缺关键证据、当前不宜确认范围和建议下一步；不要在 PRD 正文输出内部评分 YAML。
    - 评估时同时判断 `use_case_readiness` 和 `handoff_readiness`：前者看价值、决策和闭环是否成立，后者看下游建模输入是否足够。
    - 使用 `references/quality-scoring.md`。
 
 7. **生成 BKN_Creator 交接摘要**
-   - 仅在 PRD 末尾输出 `bkn_creator_handoff`。
-   - 必须采用“双层表达”：先输出中文业务可读的按场景收敛摘要，再输出机器可读 schema。
+   - 仅在 PRD 末尾输出中文业务交接摘要，不输出机器可读 schema。
+   - 需求发现阶段的核心始终是业务语言；交接摘要用于帮助后续建模理解业务，不把 PRD 变成建模输入文件。
    - 四层收敛必须先出现在 PRD 正文的每个核心场景中，再进入文末交接摘要。每个 P0/P1 场景都必须补充“该场景成立所需的业务对象、业务联系、业务逻辑、责任与控制”小节，说明为什么需要这些内容、它们来自哪个业务规则或验收目标、若不确认会影响什么。
    - PRD 正文优先使用业务标题：`需要识别的业务对象（概念模型层）`、`需要表达的业务联系（关系层）`、`需要判断、计算或推进的业务逻辑（动力层）`、`需要控制的责任、权限与留痕（治理层）`。不要只列名词或“候选：对象清单”。
    - 在进入四层收敛前，必须先做本体论分类：区分 `对象候选`、`属性候选`、`枚举候选`、`关系候选`、`结果候选`、`计算逻辑`、`决策逻辑`、`状态变化`、`Action 候选` 和 `治理要求`。不能因为一个词是名词就把它当对象，不能因为一个动作发生在界面上就把它当治理。
    - 判定准则见 `references/bkn-requirement-method.md` 的“本体论判别纪律”。若分类尚不确定，必须标为“待下游建模判定”，不得含混处理。
-   - 中文业务可读摘要必须先按场景归纳上述四层，再输出中文全局归并标题：`业务已确认内容`、`仍属建模候选`、`需下游建模阶段判定的问题`。
-   - 机器可读 schema 中必须先输出按场景组织的 `scenario_handoff_matrix`，再输出全局归并的 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`。
-   - `scenario_handoff_matrix` 必须按场景映射概念模型层、关系层、动力层、治理层和 Skill / Agent 应用层。
-   - 每个候选对象、关系、逻辑属性、Action、治理要求或 Skill / Agent 候选都必须带 `scenario_id`、`evidence_ref` 和 `confirmation_status`。
-   - `confirmation_status` 使用 `confirmed`、`candidate`、`unresolved`、`rejected`。
-   - 全局 `business_confirmed` 只能放入来自明确场景、有业务证据或验收用例、业务含义清楚、且未标注“范围待确认”的内容。
+   - 中文业务可读摘要必须先按场景归纳上述五层，再输出中文全局归并标题：`业务已确认内容`、`仍属建模候选`、`需下游建模阶段判定的问题`。
+   - 五层表达必须“逐项业务化”：概念模型层要逐个说明每个业务对象是什么、为什么需要；关系层要逐条说明连接什么、业务含义是什么、为什么需要；动力层要逐项说明怎么判断 / 计算 / 推进、输出什么、边界是什么；治理层要逐点说明控制什么、谁负责、为什么需要；Skill / Agent 层要逐项说明帮谁、做什么、输出要求。禁止只列名词、只列关系短语或只写层级概述。
+   - `BKN_Creator` 交接摘要必须继承正文场景小结的业务表达，不得把正文里已经说清楚的业务意义压缩回 `SKU、库存、BOM` 这类孤立名词列表。
+   - 全局 `业务已确认内容` 只能放入来自明确场景、有业务证据或验收用例、业务含义清楚、且未标注“范围待确认”的内容。
    - 不能把候选对象、关系、逻辑属性或 Action 伪装成业务已确认事实。
 
 ## 输出模式
@@ -242,8 +240,9 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 ## 11. 非功能需求
 ## 12. 业务验收用例
 ## 13. 待确认问题与访谈追问清单
-## 14. BKN_Creator 交接摘要
-## 15. 版本记录
+## 14. 需求成熟度与下一步建议
+## 15. BKN_Creator 交接摘要
+## 16. 版本记录
 ```
 
 对于每个 P0/P1 场景，`## 6. 场景需求详述` 下还必须包含“场景收敛小结”：
@@ -267,6 +266,7 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 
 最终输出前检查：
 
+- 是否已完成 `references/anti-drift-checklist.md` 的防跑偏检查；
 - 是否能让业务专家不懂 BKN 也能评审；
 - 是否有明确业务目标、用户角色、触发条件、输入、输出和成功指标；
 - 是否按场景组织，而不是按对象、关系、逻辑属性、Action 组织；
@@ -278,20 +278,21 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 - PRD 迭代输出是否包含本轮输入来源、变更摘要、版本记录和下一轮追问；
 - 本轮输入文件是否已复制归档或登记到 `inputs/round-XX/source-manifest.md`；
 - `source-manifest.md` 中标记为已复制的每个 `archived_path` 是否真实存在；不存在时不得写“已复制”；
-- `BKN_Creator` 交接摘要是否仅放在末尾，先输出 `scenario_handoff_matrix`，再区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
-- `BKN_Creator` 交接摘要是否先提供中文业务可读摘要，再提供机器可读 schema；正文标题是否使用中文并仅将英文 schema 标签放在括号或代码块中；
-- `scenario_handoff_matrix` 中每个四层候选项是否包含 `scenario_id`、`evidence_ref`、`confirmation_status`；
-- 全局归并项是否都能追溯到至少一个场景、规则或验收用例；无法追溯的内容不得进入 `business_confirmed`；
+- `BKN_Creator` 交接摘要是否仅放在末尾，并保持为中文业务可读摘要；
+- 交接摘要是否先按场景做五层收敛，再归并为 `业务已确认内容`、`仍属建模候选`、`需下游建模阶段判定的问题`；
+- 五层表达是否逐项说明“是什么 / 为什么 / 怎么做 / 谁负责 / 输出什么”，而不是只写层级概述或名词清单；
+- 全局归并项是否都能追溯到至少一个场景、规则或验收用例；无法追溯的内容不得进入 `业务已确认内容`；
 - 没有把 `operator` 当作业务逻辑直接写入 PRD 主体；如需表达，应写为业务规则或对象逻辑属性候选，交由 `BKN_Creator` 判定。
 
 ## 参考资料
 
+- 防跑偏检查：`references/anti-drift-checklist.md`，最终输出前必读，用于防止 PRD 重新技术化、候选混入已确认、机器 schema 回潮。
 - FDE 业务访谈方法：`references/fde-method.md`，需要 FDE 式追问方法时读取。
 - BKN 需求发现方法：`references/bkn-requirement-method.md`，需要把业务材料整理成 PRD 时读取。
 - 质量评分规则：`references/quality-scoring.md`，需要评分、成熟度或推荐路线时读取。
 - 访谈问题库：`references/interview-question-bank.md`，需要生成访谈提纲或追问清单时读取。
 - 会议纪要处理：`references/meeting-transcript-processing.md`，输入是会议纪要、录音转写或访谈摘要时读取。
-- 输出 Schema：`references/output-schema.md`，用户要求机器可读 schema 或完整结构化输出时读取。
+- 输出结构参考：`references/output-schema.md`，仅在内部检查结构一致性时读取；PRD 正文不输出机器可读 schema。
 - FDE 到 BKN 后置映射：`references/fde-bkn-mapping.md`，仅在 `handoff_mode` 或 PRD 已形成后生成 `BKN_Creator` 交接摘要时读取。
 
 ## 模板与案例

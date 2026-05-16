@@ -37,104 +37,43 @@
 
 ## BKN_Creator 交接线索
 
-```yaml
-bkn_creator_handoff:
-  schema_version: bkn-requirement.v0.5
-  scenario_handoff_matrix:
-    - scenario_id: S2
-      scenario_name: 分析影响路径
-      business_goal: 找到受影响产品、客户和订单。
-      confirmed_business_rules:
-        - 客户影响判断必须包含证据路径。
-      acceptance_cases:
-        - AC-01
-      conceptual_model_layer:
-        - name: 供应商
-          scenario_id: S2
-          type_hint: business_object
-          confirmation_status: confirmed
-          evidence_ref: S2/AC-01
-        - name: 风险事件
-          scenario_id: S2
-          type_hint: event
-          confirmation_status: confirmed
-          evidence_ref: S2/AC-01
-      relationship_layer:
-        - name: 风险事件影响供应商
-          scenario_id: S2
-          source_business_term: 风险事件
-          target_business_term: 供应商
-          business_meaning: 风险事件可能影响供应商履约。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-01
-      dynamic_layer:
-        - name: 影响路径分析
-          scenario_id: S2
-          kind: decision
-          trigger: 用户询问某供应商事件影响范围。
-          human_confirmation: 高风险处置需人工确认。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-01
-      governance_layer:
-        - name: 高风险状态变更审批
-          scenario_id: S2
-          permission_subject: 供应链负责人
-          controlled_action: 更新供应商风险等级
-          approval_or_audit: 必须审批并留痕
-          confirmation_status: confirmed
-          evidence_ref: 业务规则/AC-03
-      skill_agent_layer:
-        - user_task: 查询供应商风险影响
-          scenario_id: S2
-          agent_capability: 影响路径解释
-          expected_answer_or_action: 返回产品、客户、订单和证据路径。
-          acceptance_case_ref: AC-01
-          confirmation_status: candidate
-  business_confirmed:
-    business_scenarios:
-      - 识别供应商风险事件
-      - 分析影响路径
-      - 推荐处置方案
-      - 创建审查任务
-    business_objects:
-      - 供应商
-      - 风险事件
-      - 产品
-      - 客户
-      - 订单
-      - 证据文档
-    business_rules:
-      - 高风险供应商状态变更必须审批。
-      - 客户影响判断必须包含证据路径。
-  candidate_only:
-    candidate_objects:
-      - Supplier
-      - RiskEvent
-      - SupplyRelation
-      - Product
-      - Customer
-      - SalesOrder
-      - MitigationTask
-      - EvidenceDocument
-    candidate_relations:
-      - Supplier supplies Product
-      - Product used_in SalesOrder
-      - SalesOrder belongs_to Customer
-      - RiskEvent affects Supplier
-    candidate_logic_properties:
-      - RiskEvent.risk_event_classification
-      - Supplier.supply_chain_impact_path
-    candidate_actions:
-      - CreateMitigationTask
-      - SendSupplierAlert
-  needs_bkn_creator_decision:
-    - RiskEvent 与 EvidenceDocument 是否需要独立证据对象。
-    - 供应商风险等级更新是否只能生成审批草案。
-    - 替代供应商推荐是否作为逻辑属性候选或独立 Skill。
-  critical_gaps:
-    - 供应关系和客户订单事实来源未确认。
-    - 风险分级规则和审批人未确认。
-  requires_business_confirmation:
-    - 高风险供应商定义。
-    - 外部通知是否允许真实发送。
-```
+### 分析影响路径
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上必须看清“哪个供应商出了什么风险、会影响哪些产品、客户和订单、证据来自哪里”。候选对象包括供应商、风险事件、产品、客户、订单和证据文档。 |
+| 需要表达的业务联系（关系层） | 需要把风险事件、供应商、产品、订单和客户串成影响路径，否则业务无法判断风险会落到哪里。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 业务现场要回答影响范围、风险等级和处置优先级。后续可关注影响路径分析、风险判断和处置建议。 |
+| 需要控制的责任、权限与留痕（治理层） | 高风险状态变更必须审批并留痕，不能由系统直接改风险等级。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以查询供应商风险影响，并解释证据路径。 |
+| 证据 | AC-01、AC-03 |
+
+### 创建审查任务
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上要看清供应商、风险事件和审查任务，才能把风险处置落到责任动作上。 |
+| 需要表达的业务联系（关系层） | 审查任务必须围绕具体供应商风险事件生成，避免任务脱离风险来源。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 系统可以生成审查任务草案，但任务是否生效、谁负责、何时完成需要业务确认。 |
+| 需要控制的责任、权限与留痕（治理层） | 不直接改风险等级；审查任务和审批状态需要可追踪。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以生成风险审查任务草案。 |
+| 证据 | AC-03 |
+
+### 全局归并摘要
+
+#### 业务已确认内容
+
+- 需要识别供应商风险事件、分析影响路径、推荐处置方案并创建审查任务。
+- 高风险供应商状态变更必须审批。
+- 客户影响判断必须包含证据路径。
+
+#### 仍属建模候选
+
+- 风险事件分类、影响路径分析、处置建议、替代方案推荐。
+- 供应商、产品、客户、订单、证据之间的表达方式。
+
+#### 需下游建模阶段判定的问题
+
+- 风险事件和证据文档是否需要分别表达。
+- 风险等级更新是否只能生成审批草案。
+- 替代供应商推荐应落在判断逻辑还是独立能力上。

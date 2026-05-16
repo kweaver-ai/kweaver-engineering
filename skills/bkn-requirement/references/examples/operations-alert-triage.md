@@ -36,96 +36,43 @@
 
 ## BKN_Creator 交接线索
 
-```yaml
-bkn_creator_handoff:
-  schema_version: bkn-requirement.v0.5
-  scenario_handoff_matrix:
-    - scenario_id: S2
-      scenario_name: 告警分诊
-      business_goal: 判断告警优先级并决定处理动作。
-      confirmed_business_rules:
-        - 升级必须填写原因。
-        - 解决必须填写处理说明。
-      acceptance_cases:
-        - AC-02
-        - AC-03
-      conceptual_model_layer:
-        - name: 告警
-          scenario_id: S2
-          type_hint: business_object
-          confirmation_status: confirmed
-          evidence_ref: S2/AC-02
-      relationship_layer:
-        - name: 告警分派给处理人
-          scenario_id: S2
-          source_business_term: 告警
-          target_business_term: 处理人
-          business_meaning: 告警由指定处理人负责处理。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-03
-      dynamic_layer:
-        - name: 告警优先级判断
-          scenario_id: S2
-          kind: decision
-          trigger: 用户打开告警收件箱。
-          human_confirmation: 升级和关闭需要处理说明。
-          confirmation_status: candidate
-          evidence_ref: S2/AC-02
-      governance_layer:
-        - name: 跨团队分派权限
-          scenario_id: S2
-          permission_subject: 团队负责人
-          controlled_action: 跨团队分派告警
-          approval_or_audit: 需要负责人权限并留痕
-          confirmation_status: confirmed
-          evidence_ref: 业务规则/AC-04
-      skill_agent_layer:
-        - user_task: 分诊告警
-          scenario_id: S2
-          agent_capability: 告警优先级解释和行动建议
-          expected_answer_or_action: 给出优先级、原因和建议动作。
-          acceptance_case_ref: AC-02
-          confirmation_status: candidate
-  business_confirmed:
-    business_scenarios:
-      - 查看负责路线告警
-      - 告警分诊
-      - 跨团队升级
-    business_objects:
-      - 告警
-      - 路线
-      - 航班
-      - 团队
-      - 处理人
-    business_rules:
-      - 升级必须填写原因。
-      - 解决必须填写处理说明。
-      - 跨团队分派需要负责人权限。
-  candidate_only:
-    candidate_objects:
-      - AlertTicket
-      - Route
-      - Flight
-      - Team
-      - Employee
-    candidate_relations:
-      - Employee responsible_for Route
-      - AlertTicket affects Route
-      - AlertTicket assigned_to Employee
-    candidate_logic_properties:
-      - AlertTicket.alert_priority_score
-    candidate_actions:
-      - ReassignAlert
-      - ResolveAlert
-      - EscalateAlert
-  needs_bkn_creator_decision:
-    - Route 是否建为派生对象，还是作为 Flight 的组合属性。
-    - 优先级判断是指标型逻辑属性还是算子型逻辑属性。
-    - 升级和跨团队分派是否只能生成草案。
-  critical_gaps:
-    - 路线负责人数据源和权限边界未确认。
-    - 告警优先级规则和标准答案样例未确认。
-  requires_business_confirmation:
-    - 高优先级告警定义。
-    - 跨团队分派审批责任人。
-```
+### 告警分诊
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上必须看清“哪个告警要处理、影响哪条路线或航班、由谁负责、影响范围多大”。候选对象包括告警、路线、航班、负责人和影响范围。 |
+| 需要表达的业务联系（关系层） | 需要把告警与路线、航班和责任人串起来，否则无法解释为什么某个告警要优先处理或转给谁。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 业务现场要判断优先级、是否需要重分派、解决还是升级。后续可关注优先级判断、分诊建议和升级判断。 |
+| 需要控制的责任、权限与留痕（治理层） | 高影响告警升级必须留痕，跨团队动作不能无理由自动执行。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以解释告警原因、推荐处理动作，并生成升级或转派草案。 |
+| 证据 | AC-01、AC-02 |
+
+### 跨团队升级
+
+| 业务视角 | 业务化说明 |
+|---|---|
+| 需要识别的业务对象（概念模型层） | 业务上要看清告警、责任团队和升级记录，才能追踪升级是否被接住。 |
+| 需要表达的业务联系（关系层） | 告警必须关联到接收升级的责任团队，并保留升级原因。 |
+| 需要判断、计算或推进的业务逻辑（动力层） | 系统可以提示升级触发条件并生成处置草案，但升级理由和责任归属要明确。 |
+| 需要控制的责任、权限与留痕（治理层） | 升级动作需受控，避免跨团队误派或无依据升级。 |
+| 可由 Skill / Agent 支撑的业务任务 | Agent 可以生成升级建议和处置草案。 |
+| 证据 | AC-03 |
+
+### 全局归并摘要
+
+#### 业务已确认内容
+
+- 运营分析师需要按优先级处理负责路线上的告警。
+- 告警处置需要展示依据，而不是只给结论。
+- 高影响告警的升级动作需要留痕。
+
+#### 仍属建模候选
+
+- 告警优先级、组织影响、升级建议等判断逻辑。
+- 告警、路线、航班、责任团队之间的表达方式。
+
+#### 需下游建模阶段判定的问题
+
+- 告警优先级应作为属性、计算结果还是独立判断逻辑。
+- 升级动作是建议、草案还是可执行动作。
+- 组织影响的表达粒度。
