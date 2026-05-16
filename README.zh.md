@@ -52,7 +52,7 @@ Verifier 的检查分为两类：
 - 需求规范检查：依据 `SKILL.md`、模板、需求发现方法、质量评分和防跑偏清单。
 - BKN 方法论检查：依据 `references/bkn-methodology.md` 和 `references/bkn-requirement-ontology-discovery.md`，检查对象、事实属性、关系、指标、算子、行动、治理和 handoff 边界。
 
-这个 Harness 不要求需求发现阶段执行平台级 Eval / Trace；它只保留必要的输入归档、内部检查 findings、修订摘要和最终门禁结论。
+这个 Harness 不要求需求发现阶段执行平台级 Eval / Trace；它只保留必要的输入归档、内部检查 findings、修订摘要和最终门禁结论。若 PRD、PRD 迭代或 handoff 写入项目目录，应同步写入同名 `*-verification-findings.md`，但 findings 不进入 PRD 正文。
 
 ## 服务场景
 

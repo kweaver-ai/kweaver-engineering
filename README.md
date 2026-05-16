@@ -52,7 +52,7 @@ Verifier checks have two parts:
 - Requirement-spec checks: based on `SKILL.md`, templates, requirement discovery methods, quality scoring, and anti-drift rules.
 - BKN methodology checks: based on `references/bkn-methodology.md` and `references/bkn-requirement-ontology-discovery.md`, covering object, fact property, relation, metric, operator, action, governance, and handoff boundaries.
 
-This Harness does not require platform-level Eval / Trace during requirement discovery. It keeps only the necessary input archive, internal findings, revision summary, and final gate result.
+This Harness does not require platform-level Eval / Trace during requirement discovery. It keeps only the necessary input archive, internal findings, revision summary, and final gate result. When a PRD, PRD iteration, or handoff is written to the project folder, a sibling `*-verification-findings.md` should be written as well, while findings stay out of the PRD body.
 
 ## Service Scenarios
 
