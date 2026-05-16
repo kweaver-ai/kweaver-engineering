@@ -40,6 +40,56 @@
 ```yaml
 bkn_creator_handoff:
   schema_version: bkn-requirement.v0.5
+  scenario_handoff_matrix:
+    - scenario_id: S2
+      scenario_name: 分析影响路径
+      business_goal: 找到受影响产品、客户和订单。
+      confirmed_business_rules:
+        - 客户影响判断必须包含证据路径。
+      acceptance_cases:
+        - AC-01
+      conceptual_model_layer:
+        - name: 供应商
+          scenario_id: S2
+          type_hint: business_object
+          confirmation_status: confirmed
+          evidence_ref: S2/AC-01
+        - name: 风险事件
+          scenario_id: S2
+          type_hint: event
+          confirmation_status: confirmed
+          evidence_ref: S2/AC-01
+      relationship_layer:
+        - name: 风险事件影响供应商
+          scenario_id: S2
+          source_business_term: 风险事件
+          target_business_term: 供应商
+          business_meaning: 风险事件可能影响供应商履约。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-01
+      dynamic_layer:
+        - name: 影响路径分析
+          scenario_id: S2
+          kind: decision
+          trigger: 用户询问某供应商事件影响范围。
+          human_confirmation: 高风险处置需人工确认。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-01
+      governance_layer:
+        - name: 高风险状态变更审批
+          scenario_id: S2
+          permission_subject: 供应链负责人
+          controlled_action: 更新供应商风险等级
+          approval_or_audit: 必须审批并留痕
+          confirmation_status: confirmed
+          evidence_ref: 业务规则/AC-03
+      skill_agent_layer:
+        - user_task: 查询供应商风险影响
+          scenario_id: S2
+          agent_capability: 影响路径解释
+          expected_answer_or_action: 返回产品、客户、订单和证据路径。
+          acceptance_case_ref: AC-01
+          confirmation_status: candidate
   business_confirmed:
     business_scenarios:
       - 识别供应商风险事件

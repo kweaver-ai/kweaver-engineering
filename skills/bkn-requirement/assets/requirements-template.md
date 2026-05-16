@@ -126,8 +126,37 @@
 
 ## 13. 待确认问题与访谈追问清单
 
+> 本节必须按业务场景组织，优先使用业务语言。不要直接向业务专家询问 BKN、对象类型、关系类型、ActionType、接口粒度、写回粒度、主键、关系基数或 data_view。技术/建模问题应转译为业务动作、业务结果、人工确认边界或验收样例，或移入 §16 的内部建模问题。
+
+### 13.1 S1 <场景名称>
+
+| 问题类型 | 业务化问题 | 问谁 | 为什么要问 | 不确认的风险 | 建议问法 | 优先级 |
+|---|---|---|---|---|---|---|
+| 业务目标 |  |  |  |  |  | P0 / P1 / P2 |
+| 当前流程 |  |  |  |  |  | P0 / P1 / P2 |
+| 目标流程 |  |  |  |  |  | P0 / P1 / P2 |
+| 规则口径 |  |  |  |  |  | P0 / P1 / P2 |
+| 异常边界 |  |  |  |  |  | P0 / P1 / P2 |
+| 人工确认 |  |  |  |  |  | P0 / P1 / P2 |
+| 验收样例 |  |  |  |  |  | P0 / P1 / P2 |
+
+### 13.2 S2 <场景名称>
+
+| 问题类型 | 业务化问题 | 问谁 | 为什么要问 | 不确认的风险 | 建议问法 | 优先级 |
+|---|---|---|---|---|---|---|
+| 业务目标 |  |  |  |  |  | P0 / P1 / P2 |
+
+### 13.3 产品范围确认问题
+
 | 问题 | 问谁 | 为什么要问 | 不确认的风险 | 建议问法 | 优先级 |
 |---|---|---|---|---|---|
+|  |  |  |  |  |  |
+
+### 13.4 系统与数据确认问题
+
+| 问题 | 问谁 | 为什么要问 | 不确认的风险 | 建议问法 | 优先级 |
+|---|---|---|---|---|---|
+|  |  |  |  |  |  |
 
 ## 14. 质量评估摘要
 
@@ -173,6 +202,48 @@ bkn_creator_handoff:
   source_prd:
   handoff_route: hold | interview | extract_after_prd_refinement | extract_after_scene_split | create_after_business_confirmation | update
   requirement_maturity: R0 | R1 | R2 | R3 | R4
+  scenario_handoff_matrix:
+    - scenario_id:
+      scenario_name:
+      business_goal:
+      evidence_refs:
+      conceptual_model_layer:
+        - name:
+          scenario_id:
+          type_hint:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      relationship_layer:
+        - name:
+          scenario_id:
+          source_business_term:
+          target_business_term:
+          business_meaning:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      dynamic_layer:
+        - name:
+          scenario_id:
+          kind: metric | calculation | decision | action_draft | action_execute | state_change
+          trigger:
+          human_confirmation:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      governance_layer:
+        - name:
+          scenario_id:
+          permission_subject:
+          controlled_action:
+          approval_or_audit:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      skill_agent_layer:
+        - user_task:
+          scenario_id:
+          agent_capability:
+          expected_answer_or_action:
+          acceptance_case_ref:
+          confirmation_status: confirmed | candidate | unresolved | rejected
   business_confirmed:
     business_scenarios:
     business_objects:
@@ -187,9 +258,12 @@ bkn_creator_handoff:
     candidate_risk_types:
     candidate_skills:
   needs_bkn_creator_decision:
+    internal_modeling_questions:
   critical_gaps:
   suggested_next_step:
 ```
+
+> `business_confirmed`、`candidate_only` 和 `needs_bkn_creator_decision` 必须来自 `scenario_handoff_matrix` 的全局归并。无法追溯到场景、规则或验收用例的候选项不得进入 `business_confirmed`。
 
 ## 17. 版本记录
 

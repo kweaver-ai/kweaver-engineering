@@ -39,6 +39,53 @@
 ```yaml
 bkn_creator_handoff:
   schema_version: bkn-requirement.v0.5
+  scenario_handoff_matrix:
+    - scenario_id: S2
+      scenario_name: 告警分诊
+      business_goal: 判断告警优先级并决定处理动作。
+      confirmed_business_rules:
+        - 升级必须填写原因。
+        - 解决必须填写处理说明。
+      acceptance_cases:
+        - AC-02
+        - AC-03
+      conceptual_model_layer:
+        - name: 告警
+          scenario_id: S2
+          type_hint: business_object
+          confirmation_status: confirmed
+          evidence_ref: S2/AC-02
+      relationship_layer:
+        - name: 告警分派给处理人
+          scenario_id: S2
+          source_business_term: 告警
+          target_business_term: 处理人
+          business_meaning: 告警由指定处理人负责处理。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-03
+      dynamic_layer:
+        - name: 告警优先级判断
+          scenario_id: S2
+          kind: decision
+          trigger: 用户打开告警收件箱。
+          human_confirmation: 升级和关闭需要处理说明。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-02
+      governance_layer:
+        - name: 跨团队分派权限
+          scenario_id: S2
+          permission_subject: 团队负责人
+          controlled_action: 跨团队分派告警
+          approval_or_audit: 需要负责人权限并留痕
+          confirmation_status: confirmed
+          evidence_ref: 业务规则/AC-04
+      skill_agent_layer:
+        - user_task: 分诊告警
+          scenario_id: S2
+          agent_capability: 告警优先级解释和行动建议
+          expected_answer_or_action: 给出优先级、原因和建议动作。
+          acceptance_case_ref: AC-02
+          confirmation_status: candidate
   business_confirmed:
     business_scenarios:
       - 查看负责路线告警

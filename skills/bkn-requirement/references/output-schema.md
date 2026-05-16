@@ -237,6 +237,8 @@ requirement_schema:
       required_evidence:
   unresolved_questions:
     - id:
+      scenario_id:
+      question_type: business_goal | current_workflow | target_workflow | business_rule | exception_boundary | human_confirmation | acceptance_example | product_scope | system_data
       question:
       ask_to:
       reason_to_ask:
@@ -321,6 +323,49 @@ bkn_creator_handoff:
   business_domain:
   use_case_name:
   candidate_network_name:
+  scenario_handoff_matrix:
+    - scenario_id:
+      scenario_name:
+      business_goal:
+      confirmed_business_rules:
+      acceptance_cases:
+      conceptual_model_layer:
+        - name:
+          scenario_id:
+          type_hint:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      relationship_layer:
+        - name:
+          scenario_id:
+          source_business_term:
+          target_business_term:
+          business_meaning:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      dynamic_layer:
+        - name:
+          scenario_id:
+          kind: metric | calculation | decision | action_draft | action_execute | state_change
+          trigger:
+          human_confirmation:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      governance_layer:
+        - name:
+          scenario_id:
+          permission_subject:
+          controlled_action:
+          approval_or_audit:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      skill_agent_layer:
+        - user_task:
+          scenario_id:
+          agent_capability:
+          expected_answer_or_action:
+          acceptance_case_ref:
+          confirmation_status: confirmed | candidate | unresolved | rejected
   business_confirmed:
     business_scenarios:
     business_objects:
@@ -337,14 +382,18 @@ bkn_creator_handoff:
     data_view_candidates:
     external_writeback_systems:
   needs_bkn_creator_decision:
+    internal_modeling_questions:
   critical_gaps:
   requires_business_confirmation:
   schema_validation:
     missing_required_fields:
     inconsistent_fields:
+    traceability_issues:
     validation_notes:
   suggested_next_step:
 ```
+
+`business_confirmed`、`candidate_only` 和 `needs_bkn_creator_decision` 必须由 `scenario_handoff_matrix` 全局归并得到。每个四层候选项都必须有 `scenario_id`、`evidence_ref` 和 `confirmation_status`；无法追溯到场景、规则或验收用例的内容不得进入 `business_confirmed`。
 
 ## 业务验收用例
 

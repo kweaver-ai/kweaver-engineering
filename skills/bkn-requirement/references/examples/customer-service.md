@@ -41,6 +41,53 @@
 ```yaml
 bkn_creator_handoff:
   schema_version: bkn-requirement.v0.5
+  scenario_handoff_matrix:
+    - scenario_id: S2
+      scenario_name: 识别流失风险
+      business_goal: 帮助客户负责人识别高风险客户并解释原因。
+      confirmed_business_rules:
+        - 敏感客户字段按角色控制访问。
+        - 风险等级更新需要客户负责人审批。
+      acceptance_cases:
+        - AC-02
+        - AC-05
+      conceptual_model_layer:
+        - name: 客户
+          scenario_id: S2
+          type_hint: business_object
+          confirmation_status: confirmed
+          evidence_ref: S2/AC-02
+      relationship_layer:
+        - name: 客户由客户负责人负责
+          scenario_id: S2
+          source_business_term: 客户
+          target_business_term: 客户负责人
+          business_meaning: 客户负责人对客户跟进负责。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-03
+      dynamic_layer:
+        - name: 流失风险识别
+          scenario_id: S2
+          kind: decision
+          trigger: 用户查询客户健康状态。
+          human_confirmation: 风险等级更新需要客户负责人确认。
+          confirmation_status: candidate
+          evidence_ref: S2/AC-02
+      governance_layer:
+        - name: 敏感联系人信息访问控制
+          scenario_id: S2
+          permission_subject: 客户负责人
+          controlled_action: 查看敏感联系人信息
+          approval_or_audit: 未授权不可见
+          confirmation_status: confirmed
+          evidence_ref: AC-05
+      skill_agent_layer:
+        - user_task: 解释客户流失风险
+          scenario_id: S2
+          agent_capability: 风险原因解释和下一步建议
+          expected_answer_or_action: 输出风险原因、证据和建议行动。
+          acceptance_case_ref: AC-02
+          confirmation_status: candidate
   business_confirmed:
     business_scenarios:
       - 查看客户健康状态

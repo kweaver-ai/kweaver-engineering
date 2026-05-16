@@ -159,6 +159,8 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 5. **生成业务验收用例**
    - 每个核心场景至少包含典型用例、边界用例、权限/拒绝用例、数据不足用例和证据解释用例。
    - 验收用例应使用业务输入和业务期望，不以对象/关系/逻辑属性作为主字段。
+   - 待确认问题与访谈追问清单必须按业务场景组织，并优先使用业务语言。
+   - 不要在业务访谈问题中直接问 `object_type`、`relation_type`、`ActionType`、BKN、data_view、主键、关系基数、接口粒度、写回粒度或字段名；如出现这些内容，必须转译成业务动作、业务结果、人工确认、责任人或验收样例，或移入 `BKN_Creator` 内部建模问题。
 
 6. **评估需求质量**
    - 标注需求成熟度：`R0 Idea`、`R1 Use Case Brief`、`R2 PRD Candidate`、`R3 PRD Ready`、`R4 Implementation Ready`。
@@ -167,7 +169,11 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 
 7. **生成 BKN_Creator 交接摘要**
    - 仅在 PRD 末尾输出 `bkn_creator_handoff`。
-   - 必须分为 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`。
+   - 必须先输出按场景组织的 `scenario_handoff_matrix`，再输出全局归并的 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`。
+   - `scenario_handoff_matrix` 必须按场景映射概念模型层、关系层、动力层、治理层和 Skill / Agent 应用层。
+   - 每个候选对象、关系、逻辑属性、Action、治理要求或 Skill / Agent 候选都必须带 `scenario_id`、`evidence_ref` 和 `confirmation_status`。
+   - `confirmation_status` 使用 `confirmed`、`candidate`、`unresolved`、`rejected`。
+   - 全局 `business_confirmed` 只能放入来自明确场景、有业务证据或验收用例、业务含义清楚、且未标注“范围待确认”的内容。
    - 不能把候选对象、关系、逻辑属性或 Action 伪装成业务已确认事实。
 
 ## 输出模式
@@ -240,11 +246,14 @@ docs/requirements/prj-<客户或项目简称>/inputs/round-XX/source-manifest.md
 - 每个场景是否有当前流程、目标流程、业务规则、异常边界、人工确认点和界面期望；
 - 是否记录业务系统、表单、数据源、事实来源、字段口径、刷新频率、访问限制和数据质量风险；
 - 业务验收用例是否覆盖典型问题、分析请求、决策建议、权限拒绝、数据不足和证据解释；
-- 是否包含 AI 工程师追问清单，并说明“问谁、为什么问、不确认的风险、建议问法”；
+- 待确认问题与访谈追问清单是否按场景组织，并说明“问谁、为什么问、不确认的风险、建议问法”；
+- 待确认问题是否优先业务化；若出现 `object_type`、`relation_type`、`ActionType`、BKN、data_view、主键、关系基数、接口粒度、写回粒度或字段名，是否已转译成业务语言或移入内部建模问题；
 - PRD 迭代输出是否包含本轮输入来源、变更摘要、版本记录和下一轮追问；
 - 本轮输入文件是否已复制归档或登记到 `inputs/round-XX/source-manifest.md`；
 - `source-manifest.md` 中标记为已复制的每个 `archived_path` 是否真实存在；不存在时不得写“已复制”；
-- `BKN_Creator` 交接摘要是否仅放在末尾，并区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
+- `BKN_Creator` 交接摘要是否仅放在末尾，先输出 `scenario_handoff_matrix`，再区分 `business_confirmed`、`candidate_only`、`needs_bkn_creator_decision`；
+- `scenario_handoff_matrix` 中每个四层候选项是否包含 `scenario_id`、`evidence_ref`、`confirmation_status`；
+- 全局归并项是否都能追溯到至少一个场景、规则或验收用例；无法追溯的内容不得进入 `business_confirmed`；
 - 没有把 `operator` 当作业务逻辑直接写入 PRD 主体；如需表达，应写为业务规则或对象逻辑属性候选，交由 `BKN_Creator` 判定。
 
 ## 参考资料

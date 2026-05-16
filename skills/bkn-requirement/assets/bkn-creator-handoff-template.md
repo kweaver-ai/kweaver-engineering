@@ -4,6 +4,8 @@
 
 V0.5 要求明确区分业务已确认内容、建模候选内容和需要 `BKN_Creator` 判定的内容。不要把候选对象、关系、逻辑属性或 Action 写成业务已确认事实。
 
+交接摘要必须先按场景输出 `scenario_handoff_matrix`，再做全局归并。每个候选项都必须能追溯到 `scenario_id`、`evidence_ref` 和 `confirmation_status`。
+
 ```yaml
 bkn_creator_handoff:
   schema_version: bkn-requirement.v0.5
@@ -14,6 +16,49 @@ bkn_creator_handoff:
   business_domain:
   use_case_name:
   candidate_network_name:
+  scenario_handoff_matrix:
+    - scenario_id:
+      scenario_name:
+      business_goal:
+      confirmed_business_rules:
+      acceptance_cases:
+      conceptual_model_layer:
+        - name:
+          scenario_id:
+          type_hint:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      relationship_layer:
+        - name:
+          scenario_id:
+          source_business_term:
+          target_business_term:
+          business_meaning:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      dynamic_layer:
+        - name:
+          scenario_id:
+          kind: metric | calculation | decision | action_draft | action_execute | state_change
+          trigger:
+          human_confirmation:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      governance_layer:
+        - name:
+          scenario_id:
+          permission_subject:
+          controlled_action:
+          approval_or_audit:
+          confirmation_status: confirmed | candidate | unresolved | rejected
+          evidence_ref:
+      skill_agent_layer:
+        - user_task:
+          scenario_id:
+          agent_capability:
+          expected_answer_or_action:
+          acceptance_case_ref:
+          confirmation_status: confirmed | candidate | unresolved | rejected
   business_confirmed:
     business_scenarios:
     business_objects:
@@ -30,6 +75,7 @@ bkn_creator_handoff:
     data_view_candidates:
     external_writeback_systems:
   needs_bkn_creator_decision:
+    internal_modeling_questions:
   critical_gaps:
   requires_business_confirmation:
   schema_validation:
@@ -48,7 +94,18 @@ bkn_creator_handoff:
 | `business_confirmed` | 已能被业务专家直接确认的场景、对象、规则、系统和验收用例，使用业务语言。 |
 | `candidate_only` | AI 工程师根据 PRD 推导出的 BKN 候选项，仍需 `BKN_Creator` 判断。 |
 | `needs_bkn_creator_decision` | 明确交给 `BKN_Creator` 决定的建模问题，如对象边界、关系对象、逻辑属性挂载、Action 执行模式。 |
+| `scenario_handoff_matrix` | 按场景映射概念模型层、关系层、动力层、治理层、Skill / Agent 应用层；每项必须有 `evidence_ref` 和 `confirmation_status`。 |
 | `critical_gaps` | 阻碍进入下一成熟度的关键缺口。 |
 | `requires_business_confirmation` | 仍需业务专家确认的事项。 |
 | `schema_validation` | 对 handoff 必填字段、正文一致性和缺失项的校验结果。 |
 | `suggested_next_step` | 建议下一步。 |
+
+## 进入 business_confirmed 的门禁
+
+只有同时满足以下条件，才能进入 `business_confirmed`：
+
+- 来自至少一个明确场景；
+- 有业务证据或验收用例；
+- 不是工程推断；
+- 业务含义清楚；
+- 未标注“范围待确认”。

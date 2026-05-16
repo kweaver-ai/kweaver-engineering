@@ -199,7 +199,7 @@ Use $bkn-requirement to turn this existing PRD into a standard PRD.
 Input file: /path/to/PRD.md
 ```
 
-In this case, the skill defaults to outputting `<project>-PRD v0.1.md` or the next suggested version, with a quality summary, unresolved questions, and a `BKN_Creator` handoff summary. It falls back to a validation or review report only when the source material is insufficient.
+In this case, the skill defaults to outputting `<project>-PRD v0.1.md` or the next suggested version, with a quality summary, scenario-based business follow-up questions, and a `BKN_Creator` handoff summary that maps each scenario to the conceptual model, relationship, dynamic, governance, and Skill / Agent application layers. It falls back to a validation or review report only when the source material is insufficient.
 
 ### 5. Review an existing PRD
 
@@ -219,7 +219,15 @@ When the PRD is ready, use:
 Use $bkn-requirement to generate a BKN_Creator handoff summary.
 ```
 
-The handoff summary separates:
+The handoff summary first outputs a `scenario_handoff_matrix`, mapping each scenario to:
+
+- Conceptual model layer: business objects, documents, roles, states, results, and sources of truth.
+- Relationship layer: consume, satisfy, substitute, belong-to, depend-on, impact, approve, and produce relationships.
+- Dynamic layer: rules, metrics, calculations, ranking, risk decisions, state changes, draft generation, and reminders.
+- Governance layer: permissions, approvals, exports, audit trail, rejected automation, data isolation, and compliance risk.
+- Skill / Agent application layer: Q&A, analysis, explanation, recommendation, draft generation, and follow-up reminders.
+
+It then produces the global rollup:
 
 - `business_confirmed`: business-confirmed scenarios, objects, rules, systems, and acceptance cases.
 - `candidate_only`: modeling candidates inferred by the AI engineer.
