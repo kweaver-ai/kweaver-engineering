@@ -3,7 +3,7 @@
 > 使用对象：AI 工程师 / FDE 与业务专家面对面访谈、远程访谈或复盘会议纪要。  
 > 使用目标：把业务专家的自然语言需求转成“业务场景中心 PRD”的输入材料。  
 > 使用方式：本模板供 AI 工程师 / FDE 内部参考，不要求业务专家手工填写。客户现场优先使用 `interview-brief-template.md` 的短提纲；会后优先输入 AI 会议纪要，由 Skill 自动结构化。  
-> 注意：不要要求业务专家按对象、关系、逻辑属性、Action 表达；这些只在最后由 AI 工程师整理为 BKN_Creator 交接线索。
+> 注意：不要要求业务专家按对象、关系、指标、算子、行动表达；这些只在最后由 AI 工程师整理为 BKN_Creator 交接线索。
 
 ---
 
@@ -261,16 +261,15 @@
 
 ## 11. BKN_Creator 交接线索
 
-> 仅供 AI 工程师会后整理，不要求业务专家按这些概念表达。
+> 仅供 AI 工程师会后整理，不要求业务专家按这些概念表达。这里收集的是轻量五层线索，不是完整第 15 节交接摘要，也不是机器 schema；正式 PRD 或 handoff 必须使用 `requirements-template.md` / `bkn-creator-handoff-template.md` 的固定五层表格。
 
-| 类型 | 候选内容 | 来源场景 / 规则 | 确认状态 | 备注 |
+| 层级 | 线索内容 | 来源场景 / 规则 | 确认状态 | 备注 |
 |---|---|---|---|---|
-| 业务对象候选 |  |  | confirmed / candidate / unknown |  |
-| 业务关系候选 |  |  | confirmed / candidate / unknown |  |
-| 业务规则 / 逻辑属性候选 |  |  | confirmed / candidate / unknown |  |
-| 动作 / 草案 / 写回候选 |  |  | confirmed / candidate / unknown |  |
-| Skill / Agent 候选 |  |  | confirmed / candidate / unknown |  |
-| 数据视图候选 |  |  | confirmed / candidate / unknown |  |
+| 概念模型层：业务对象 |  |  | confirmed / candidate / unknown | 说明身份、生命周期、责任或边界 |
+| 关系层：业务联系 |  |  | confirmed / candidate / unknown | 说明连接对象、业务含义和约束 |
+| 动力层：业务逻辑 |  |  | confirmed / candidate / unknown | 说明判断 / 计算 / 推荐的输入、输出和边界 |
+| 治理层：责任、权限与留痕 |  |  | confirmed / candidate / unknown | 说明审批、确认、审计、拒绝自动化或失败处理 |
+| Skill / Agent 应用层 |  |  | confirmed / candidate / unknown | 说明帮谁、在哪个流程节点、输出什么、不能自动做什么 |
 
 交接分层提醒：
 
@@ -278,7 +277,7 @@
 |---|---|
 | 业务已确认内容 | 业务专家明确确认的场景、对象、规则、系统和验收用例。 |
 | 仍属建模候选 | AI 工程师根据材料推导出的候选建模内容。 |
-| 需下游建模阶段判定的问题 | 需要下游建模阶段决定的对象边界、关系对象、逻辑属性挂载、Action 执行模式等。 |
+| 需下游建模阶段判定的问题 | 需要下游建模阶段决定的对象边界、关系对象、指标 / 算子 / 逻辑能力挂载、行动执行模式等。 |
 
 ---
 
@@ -309,4 +308,4 @@
 | 可输出 PRD 草稿 | 业务目标、场景、流程、规则、系统数据已有初步材料 | 使用 `requirements-template.md` 整理 PRD |
 | 需要补访谈 | P0 场景缺输入、输出、规则或验收样例 | 生成追问清单，约下一次访谈 |
 | 可进入业务评审 | PRD 草稿完整，主要缺口已有责任人 | 组织业务专家评审 |
-| 可交接 BKN_Creator | 业务场景和验收标准已确认，handoff 三层清楚 | 进入 `bkn-creator` |
+| 可交接 BKN_Creator | 业务场景和验收标准已确认，第 15 节五层交接摘要和全局归并清楚 | 进入 `bkn-creator` |
